@@ -16,9 +16,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 
 const formSchema = z.object({
-  name: z.string().min(2, {
-    message: "Name must be at least 2 characters.",
-  }),
   email: z.string().email({
     message: "Please enter a valid email address.",
   }),
@@ -27,14 +24,13 @@ const formSchema = z.object({
   }),
 })
 
-export default function RegisterPage() {
+export default function LoginPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
       email: "",
       password: "",
     },
@@ -45,8 +41,7 @@ export default function RegisterPage() {
 
     try {
       const result = await signIn("credentials", {
-        action: "register", // This tells NextAuth we're registering
-        name: values.name,
+        action: "login", // This tells NextAuth we're logging in
         email: values.email,
         password: values.password,
         redirect: false,
@@ -57,11 +52,11 @@ export default function RegisterPage() {
         return
       }
 
-      toast.success("Registration successful!")
+      toast.success("Login successful!")
       router.push("/")
       router.refresh()
     } catch (error) {
-      toast.error("An error occurred during registration")
+      toast.error("An error occurred during login")
       console.error(error)
     } finally {
       setIsLoading(false)
@@ -72,25 +67,12 @@ export default function RegisterPage() {
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Create an account</CardTitle>
-          <CardDescription className="text-center">Enter your information to create your account</CardDescription>
+          <CardTitle className="text-2xl font-bold text-center">Login</CardTitle>
+          <CardDescription className="text-center">Enter your credentials to access your account</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="John Doe" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
               <FormField
                 control={form.control}
                 name="email"
@@ -118,16 +100,16 @@ export default function RegisterPage() {
                 )}
               />
               <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Creating account..." : "Register"}
+                {isLoading ? "Logging in..." : "Login"}
               </Button>
             </form>
           </Form>
         </CardContent>
         <CardFooter className="flex justify-center">
           <p className="text-sm text-muted-foreground">
-            Already have an account?{" "}
-            <Link href="/login" className="text-primary font-medium hover:underline">
-              Login
+            Don't have an account?{" "}
+            <Link href="/registra" className="text-primary font-medium hover:underline">
+              Register
             </Link>
           </p>
         </CardFooter>

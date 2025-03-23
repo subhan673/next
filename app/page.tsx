@@ -1,12 +1,13 @@
 import Image from "next/image";
 import RegisterPage from "@/app/registra/page";
-// import UsersPage from "@/app/user/index";
+import UsersPage from "@/app/user/page";
+
 export default function Home() {
 
 
   return (
-    // <h1>hello</h1>
-  <RegisterPage/>
-  // <UsersPage/>
+
+   <UsersPage/>
+
   );
 }
