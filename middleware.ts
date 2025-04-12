@@ -20,14 +20,14 @@ export async function middleware(request: NextRequest) {
   const isPrivatePath = PRIVATE_PATHS.includes(pathname);
 
   // If the user is logged in and tries to access a public path, redirect to home
-  if (token && isPublicPath) {
-    return NextResponse.redirect(new URL('/', request.url));
-  }
+  // if (token && isPublicPath) {
+  //   return NextResponse.redirect(new URL('/', request.url));
+  // }
 
-  // If the user is not logged in and tries to access a private path, redirect to login
-  if (!token && isPrivatePath) {
-    return NextResponse.redirect(new URL('/login', request.url));
-  }
+  // // If the user is not logged in and tries to access a private path, redirect to login/
+  // if (!token && isPrivatePath) {
+  //   return NextResponse.redirect(new URL('/login', request.url));
+  // }
 
   // Allow the request to continue if no conditions are met
   return NextResponse.next();
